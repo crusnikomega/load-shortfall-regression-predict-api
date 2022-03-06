@@ -29,6 +29,20 @@ import json
 
 def _preprocess_data(data):
     """Private helper function to preprocess data for model prediction.
+    
+    # Drop Unnamed column
+    df_train.drop("Unnamed: 0", axis= 'columns', inplace= True)
+    
+    # Convert time object to datetime
+    df_train['time'] = pd.to_datetime(df_train['time'])
+    df_train_time = df_train['time']
+    
+    # Create dummy variables
+    df_train = pd.get_dummies(df_train, drop_first = True)
+    
+    # Covert time to numeric
+    df_train["time_numeric"] = to_integer(df_train["time"].dt)
+    df_train.drop("time", axis= 'columns', inplace= True)
 
     NB: If you have utilised feature engineering/selection in order to create
     your final model you will need to define the code here.
